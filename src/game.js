@@ -15,6 +15,7 @@ export default class Game {
 
 	getState() {
 		const playField = this.createPlayField();
+		const {y: pieceY, x: pieceX, blocks} = this.activePiece;
 
 		for (let y = 0; y < this.playField.length; y++) {
 			playField[y] = [];
@@ -23,10 +24,10 @@ export default class Game {
 				playField[y][x] = this.playField[y][x];	
 			}
 		}
-		for (let y = 0; y < this.activePiece.blocks.length; y++) {
-			for (let x = 0; x < this.activePiece.blocks[y].length; x++) {
-				if (this.activePiece.blocks[y][x]) {
-					playField[this.activePiece.y + y][this.activePiece.x + x] = this.activePiece.blocks[y][x];
+		for (let y = 0; y < blocks.length; y++) {
+			for (let x = 0; x < blocks[y].length; x++) {
+				if (blocks[y][x]) {
+					playField[pieceY + y][pieceX + x] = blocks[y][x];
 				}
 			}
 		}
@@ -96,7 +97,10 @@ export default class Game {
 					blocks[y - i][y - j] = blocks[j][y - i];
 					blocks[j][y - i] = temp;
 				}else {
-
+					blocks[i][j] = blocks[j][y - i];
+					blocks[j][y - i] = blocks[y - i][y - j];
+					blocks[y - i][y - j] = blocks[y - j][i];
+					blocks[y - j][i] = temp;
 				}
 			}
 		}
