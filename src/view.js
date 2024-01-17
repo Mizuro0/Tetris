@@ -64,7 +64,7 @@ static colors = {
 	}
 
 	renderEndScreen({ score }) {
-		this.clearScreen;
+		this.clearScreen();
 
 		this.context.fillStyle = 'white';
 		this.context.font = '18px "Press Start 2P"';
@@ -72,6 +72,7 @@ static colors = {
 		this.context.textBaseline = 'middle';
 		this.context.fillText('GAME OVER', this.width / 2, this.height / 2 - 48);
 		this.context.fillText(`Score: ${score}`, this.width / 2, this.height / 2);
+		this.context.fillText('Press ENTER to Restart Game', this.width / 2, this.height / 2 + 48);
 	}
 
 	clearScreen() {

@@ -1,19 +1,17 @@
 export default class Game {
-static points = {
-	'1': 40,
-	'2': 100,
-	'3': 300,
-	'4': 1200
-};
+	static points = {
+		'1': 40,
+		'2': 100,
+		'3': 300,
+		'4': 1200
+	};
 
-	score = 0;
-	lines = 19;
-	playField = this.createPlayField();
-	activePiece = this.createPiece();
-	nextPiece = this.createPiece();
+	constructor() {
+		this.reset();
+	}
 
 	get level() {
-		return Math.floor(this.lines * 0.1);
+		return Math.floor(this.lines * 0.1 + 1);
 	}
 
 	getState() {
@@ -40,8 +38,18 @@ static points = {
 			level: this.level,
 			lines: this.lines,
 			nextPiece: this.nextPiece,
-			playField
+			playField,
+			isGameOver: this.topOut
 		};
+	}
+
+	reset() {
+		this.score = 0;
+		this.lines = 0;
+		this.topOut = false;
+		this.playField = this.createPlayField();
+		this.activePiece = this.createPiece();
+		this.nextPiece = this.createPiece();
 	}
 
 	createPlayField() {
@@ -139,6 +147,7 @@ static points = {
 		}
 	}
 	movePieceDown() {
+		if(this.topOut) return;
 		this.activePiece.y += 1;
 
 		if (this.hasCollision()) {
@@ -147,6 +156,10 @@ static points = {
 			const clearedLines = this.clearLines();
 			this.updateScore(clearedLines);
 			this.updatePieces();
+		}
+
+		if (this.hasCollision()) {
+			this.topOut = true;
 		}
 	}
 
@@ -246,7 +259,7 @@ static points = {
 	updateScore(clearedLines) {
 		console.log(this.level);
 		if (clearedLines > 0) {
-			this.score += Game.points[clearedLines] * (this.level + 1);
+			this.score += Game.points[clearedLines] * (this.level);
 			this.lines += clearedLines;
 			console.log(this.score, this.lines, this.level);
 		}
