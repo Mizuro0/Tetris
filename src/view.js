@@ -8,11 +8,14 @@ export default class View {
 		this.canvas.width = this.width;
 		this.canvas.height = this.height;
 		this.context = this.canvas.getContext('2d');
+
+		this.blockWidth = this.width / columns;
+		this.blockHeight = this.height / rows;
 		
 		this.element.appendChild(this.canvas);
 	}
 
-	renderPlayField(playField) {
+	renderPlayField({ playField }) {
 		for (let y = 0; y < playField.length; y++) {
 			const line = playField[y];
 
@@ -24,10 +27,9 @@ export default class View {
 					this.context.strokeStyle = 'black';
 					this.context.lineWidth = 2;
 
-					this.context.fillRect(x, y);
+					this.context.fillRect(x * this.blockWidth, y * this.blockHeight, this.blockWidth, this.blockHeight);
 				}
 			}
-			
 		}
 	}
 }
