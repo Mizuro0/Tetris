@@ -36,6 +36,10 @@ static points = {
 		}
 
 		return {
+			score: this.score,
+			level: this.level,
+			lines: this.lines,
+			nextPiece: this.nextPiece,
 			playField
 		};
 	}
